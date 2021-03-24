@@ -16,6 +16,7 @@ app.set('port', 8081)
 
 require("./routes/rusuarios.js")(app, swig);  // (app, param1, param2, etc.)
 require("./routes/rcanciones.js")(app,swig);  // (app, param1, param2, etc.)
+require("./routes/rautores.js")(app,swig);
 
 app.get('/suma', function (req, res) {
     let respuesta = parseInt(req.query.num1) + parseInt(req.query.num2);
