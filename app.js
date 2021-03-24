@@ -1,19 +1,27 @@
-let express= require('express');
-let app= express();
+let express = require('express');
+let app = express();
 
 // Variables
 app.set('port', 8081)
-app.get('/usuarios', function(req, res){
-    console.log("depurar aquí");
-    res.send("ver usuarios")
+
+
+require("./routes/rusuarios.js")(app);  // (app, param1, param2, etc.)
+require("./routes/rcanciones.js")(app);  // (app, param1, param2, etc.)
+
+app.get('/suma', function (req, res) {
+    let respuesta = parseInt(req.query.num1) + parseInt(req.query.num2);
+    res.send(String(respuesta));
 });
 
-app.get("/canciones", function(req,res){
-
-    res.send("ver canciones")
+app.get('/canciones/:id', function (req, res) {
+    let respuesta = 'id: ' + req.params.id;
+    res.send(respuesta);
+});
+app.get('/canciones/:genero/:id', function (req, res) {
+    let respuesta = 'id: ' + req.params.id + '<br>' + 'Género: ' + req.params.genero;
+    res.send(respuesta);
 });
 
-
-app.listen((app.get("port"), function (){
+app.listen(app.get("port"), function () {
     console.log("Servidor activo")
-}));
+});
