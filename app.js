@@ -7,6 +7,10 @@ let mongo = require('mongodb');
 let gestorBD = require("./modules/gestorBD.js");
 gestorBD.init(app,mongo);
 
+let fileUpload = require('express-fileupload');
+app.use(fileUpload());
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
@@ -16,7 +20,7 @@ app.use(express.static('public'));
 
 app.set('db','mongodb://admin:sdi@' +
     'cluster0-shard-00-00.syqsl.mongodb.net:27017,cluster0-shard-00-01.syqsl.mongodb.net:27017,' +
-    'cluster0-shard-00-02.syqsl.mongodb.net:27017/canciones?ssl=true&replicaSet=atlas-nvacm1-shard-0&authSource=admin&retryWrites=true&w=majority');
+    'cluster0-shard-00-02.syqsl.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-nvacm1-shard-0&authSource=admin&retryWrites=true&w=majority');
 
 // Variables
 app.set('port', 8081)
