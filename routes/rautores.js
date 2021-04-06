@@ -57,7 +57,7 @@ module.exports = function (app, swig) {
         let respuesta = 'grupo: ' + req.params.grupo;
         res.redirect("/autores");
     });
-    app.get('/canciones/:grupo/:id', function (req, res) {
+    app.get('/autores/:grupo/:id', function (req, res) {
         let respuesta = 'id: ' + req.params.id + '<br>' + 'Grupo: ' + req.params.grupo;
         res.redirect("/autores");
     });

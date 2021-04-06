@@ -1,30 +1,46 @@
-
-
-module.exports = function (app, swig) {
+module.exports = function (app, swig, mongo) {
     app.get("/canciones", function (req, res) {
 
-        let canciones=[{
-            "nombre" :"Blanck Space",
-            "precio":"1.2"
-        },{
-            "nombre" :"See you again",
-            "precio":"1.3"
-        },{
-            "nombre" :"Uptown funk",
-            "precio":"1.1"
+        let canciones = [{
+            "nombre": "Blanck Space",
+            "precio": "1.2"
+        }, {
+            "nombre": "See you again",
+            "precio": "1.3"
+        }, {
+            "nombre": "Uptown funk",
+            "precio": "1.1"
         }]
 
-        let respuesta= swig.renderFile("views/btienda.html",
-            { vendedor:"Tienda de canciones", canciones:canciones});
+        let respuesta = swig.renderFile("views/btienda.html",
+            {vendedor: "Tienda de canciones", canciones: canciones});
 
         res.send(respuesta);
     });
 
-    app.post("/cancion", function (req,res){
-        res.send("Cancion agregada:"+req.body.nombre +"<br>"
-        +"genero: "+req.body.genero+"<br>"
-        + "precio: "+ req.body.precio);
-    } )
+    app.post("/cancion", function (req, res) {
+            let cancion = {
+                nombre: req.body.nombre,
+                genero: req.body.genero,
+                precio: req.body.precio
+            }
+            mongo.MongoClient.connect(app.get('db'), function (err, db) {
+                if (err) {
+                    res.send("Error de conexión: " + err);
+                } else {
+                    let collection = db.collection('canciones');
+                    collection.insertOne(cancion, function (err, result) {
+                        if (err) {
+                            res.send("Error al insertar " + err);
+                        } else {
+                            res.send("Agregada id: " + result.ops[0]._id);
+                        }
+                        db.close();
+                    });
+                }
+            });
+        }
+    )
 
     app.get('/canciones/agregar', function (req, res) {
         let respuesta = swig.renderFile('views/bagregar.html', {});
