@@ -1,4 +1,4 @@
-module.exports = function (app, swig, mongo) {
+module.exports = function (app, swig, gestorBD) {
     app.get("/canciones", function (req, res) {
 
         let canciones = [{
@@ -24,21 +24,13 @@ module.exports = function (app, swig, mongo) {
                 genero: req.body.genero,
                 precio: req.body.precio
             }
-            mongo.MongoClient.connect(app.get('db'), function (err, db) {
-                if (err) {
-                    res.send("Error de conexión: " + err);
-                } else {
-                    let collection = db.collection('canciones');
-                    collection.insertOne(cancion, function (err, result) {
-                        if (err) {
-                            res.send("Error al insertar " + err);
-                        } else {
-                            res.send("Agregada id: " + result.ops[0]._id);
-                        }
-                        db.close();
-                    });
-                }
-            });
+        gestorBD.insertarCancion(cancion, function(id){
+            if (id == null) {
+                res.send("Error al insertar canción");
+            } else {
+                res.send("Agregada la canción ID: " + id);
+            }
+        });
         }
     )
 
