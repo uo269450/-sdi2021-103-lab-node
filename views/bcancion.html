@@ -46,6 +46,7 @@
         <div >{{ comentario.autor }}</div>
     </strong>
     <div> Comentario: {{ comentario.texto }}</div>
+    <a href="/comentarios/borrar/{{comentario._id.toString()}}"> Eliminar</a>
     <hr>
 </div>
 {% endfor %}
