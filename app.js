@@ -38,6 +38,8 @@ routerUsuarioSession.use(function(req, res, next) {
 //Aplicar routerUsuarioSession
 app.use("/canciones/agregar",routerUsuarioSession);
 app.use("/publicaciones",routerUsuarioSession);
+//app.use("/comentarios",routerUsuarioSession);
+
 
 //routerAudios
 let routerAudios = express.Router();
@@ -76,6 +78,7 @@ app.set('db','mongodb://admin:sdi@' +
 require("./routes/rusuarios.js")(app, swig,gestorBD);  // (app, param1, param2, etc.)
 require("./routes/rcanciones.js")(app,swig,gestorBD);  // (app, param1, param2, etc.)
 require("./routes/rautores.js")(app,swig,gestorBD);
+require("./routes/rcomentarios.js")(app,swig,gestorBD);
 
 app.get('/suma', function (req, res) {
     let respuesta = parseInt(req.query.num1) + parseInt(req.query.num2);
