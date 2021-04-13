@@ -107,6 +107,10 @@ app.get('/suma', function (req, res) {
     res.send(String(respuesta));
 });
 
+app.get('/', function (req, res) {
+    res.redirect('/tienda');
+})
+
 
 
 app.listen(app.get("port"), function () {
