@@ -4,7 +4,8 @@ module.exports = {
     init: function (app, mongo) {
         this.mongo = mongo;
         this.app = app;
-    },obtenerCancionesPg : function(criterio,pg,funcionCallback){
+    },
+    obtenerCancionesPg : function(criterio,pg,funcionCallback){
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
@@ -176,7 +177,8 @@ module.exports = {
                 });
             }
         });
-    },obtenerComentarios : function(criterio,funcionCallback){
+    },
+    obtenerComentarios : function(criterio,funcionCallback){
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
