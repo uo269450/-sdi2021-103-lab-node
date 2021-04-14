@@ -55,6 +55,8 @@ routerUsuarioAutor.use(function(req, res, next) {
     let id = path.basename(req.originalUrl);
 // Cuidado porque req.params no funciona
 // en el router si los params van en la URL.
+
+
     gestorBD.obtenerCanciones(
         {_id: mongo.ObjectID(id) }, function (canciones) {
             console.log(canciones[0]);
@@ -69,7 +71,11 @@ routerUsuarioAutor.use(function(req, res, next) {
 app.use("/cancion/modificar",routerUsuarioAutor);
 app.use("/cancion/eliminar",routerUsuarioAutor);
 
-
+app.get("/error", function (req,res){
+        let respuesta = swig.renderFile('views/error.html', {});
+        res.send(respuesta);
+    }
+)
 
 //routerAudios
 let routerAudios = express.Router();
@@ -128,6 +134,8 @@ app.get('/suma', function (req, res) {
     let respuesta = parseInt(req.query.num1) + parseInt(req.query.num2);
     res.send(String(respuesta));
 });
+
+
 
 app.get('/', function (req, res) {
     res.redirect('/tienda');

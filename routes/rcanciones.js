@@ -206,12 +206,15 @@ module.exports = function (app, swig, gestorBD) {
 
         gestorBD.obtenerCanciones(criterioAutor, function (cancion){
             if(cancion!=null){
-                res.send("El autor no puede comprar su propia cancion")
+                let mensaje="El autor no puede comprar su propia cancion"
+                res.redirect("/error?mensaje="+mensaje)
+                //res.send("El autor no puede comprar su propia cancion")
 
             }else{
                 gestorBD.obtenerCompras(criterio, function (arrayCompras) {
                     if(arrayCompras.length>0){
-                        res.send("La compra ya se ha realizado")
+                        let mensaje="No puede comprar dos veces la misma canción"
+                        res.redirect("/error?mensaje="+mensaje)
 
                     }else{
 
