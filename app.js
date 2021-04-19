@@ -46,6 +46,7 @@ app.use("/publicaciones",routerUsuarioSession);
 app.use("/cancion/comprar",routerUsuarioSession);
 app.use("/compras",routerUsuarioSession);
 //app.use("/comentarios",routerUsuarioSession);
+require("./routes/rapicanciones.js")(app, gestorBD);
 
 //routerUsuarioAutor
 let routerUsuarioAutor = express.Router();
