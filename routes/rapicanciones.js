@@ -38,6 +38,16 @@ module.exports = function(app, gestorBD) {
         }
         // ¿Validar nombre, genero, precio?
 
+        validateCancion(cancion, function (errs){
+            if(errs.length>0){
+                res.status(403)
+                res.json({
+                    errs: errs
+                })
+            }
+
+        })
+
         gestorBD.insertarCancion(cancion, function(id){
             if (id == null) {
                 res.status(500);
@@ -119,10 +129,41 @@ module.exports = function(app, gestorBD) {
                 res.json({
                     error : "se ha producido un error"
                 })
+            }else if(canciones[0].autor!=req.session.usuario){
+                res.status(500);
+                res.json({error: "ha de ser el propietario para eliminar una canción"})
             } else {
                 res.status(200);
                 res.send( JSON.stringify(canciones) );
             }
         });
     });
+
+
+    function validateCancion(cancion, funcionCallback) {
+        let errs = new Array();
+
+        if (cancion.genero===null
+            ||typeof cancion.genero === 'undefined'
+            ||cancion.genero.length ==='' ){
+            errors.push("Error: genero de canción vacío")
+        }
+
+        if (cancion.nombre===null
+            ||typeof cancion.nombre === 'undefined'
+            ||cancion.nombre.length ==='' ){
+            errors.push("Error: nombre de la canción  vacío")
+        }
+
+        if (cancion.precio===null
+            ||typeof cancion.precio === 'undefined'
+            ||cancion.precio<=0 ){
+            errors.push("Error: precio de la canción >0")
+        }
+
+        errors.length<=0?funcionCallback(null):funcionCallback(errors);
+
+
+
+    }
 }
